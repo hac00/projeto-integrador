@@ -1,20 +1,30 @@
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 
 from .models import Cliente
 from .forms import ClienteForm
 
+# Template View
+class ClienteView(TemplateView):
+    template_name = 'clientes.html'
+
+# CRUD Cliente
 class ClienteCreateView(CreateView):
 	model = Cliente
 	form_class = ClienteForm
 	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('cliente_adicionar')
+	success_url = reverse_lazy('clientes_listar')
+    
+class ClienteListView(ListView):
+    model = Cliente
+    template_name = 'clientes_listar.html'
+    context_object_name = 'clientes'
 
 class ClienteUpdateView(UpdateView):
 	model = Cliente
 	form_class = ClienteForm
 	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('cliente_adicionar')
+	success_url = reverse_lazy('clientes_listar')
 
 	def get_initial(self):
 		initial = super().get_initial()
@@ -38,3 +48,8 @@ class ClienteUpdateView(UpdateView):
 				'tipoCliente': 'PJ'
 			})
 		return initial
+        
+class ClienteDeleteView(DeleteView):
+    model = Cliente
+    template_name = 'cliente_deletar.html'
+    success_url = reverse_lazy('clientes')

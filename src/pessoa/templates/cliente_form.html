@@ -23,7 +23,8 @@
         <label for="id_pj">CNPJ: </label>
         {{ form.cnpj }}
     </div>
-    <button type="submit">Cadastrar</button>
+    <button type="submit">Salvar</button>
+	<button href="{% url 'clientes_listar' %}">Cancelar</button>
 </form>
 <script>
     const tipo = document.getElementById("id_tipoCliente");
