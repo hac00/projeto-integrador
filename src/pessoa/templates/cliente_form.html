@@ -1,0 +1,72 @@
+<h2>Cadastrar Cliente</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="id_tipoCliente">Tipo de Cliente:</label>
+    {{ form.tipoCliente }}
+    <p>
+        <label for="id_nome">Nome: </label>
+        {{ form.nome }}
+    </p>
+    <p>
+        <label for="id_telefone">Telefone: </label>
+        {{ form.telefone }}
+    </p>
+    <p>
+        <label for="id_email">E-mail: </label>
+        {{ form.email }}
+    </p>
+    <div id="campoPF" style="display:none;">
+        <label for="id_pf">CPF: </label>
+        {{ form.cpf }}
+    </div>
+    <div id="campoPJ" style="display:none;">
+        <label for="id_pj">CNPJ: </label>
+        {{ form.cnpj }}
+    </div>
+    <button type="submit">Cadastrar</button>
+</form>
+<script>
+    const tipo = document.getElementById("id_tipoCliente");
+    const pf = document.getElementById("campoPF");
+    const pj = document.getElementById("campoPJ");
+    tipo.addEventListener('change', function(){
+        if(this.value === 'PF'){
+            pf.style.display = "block";
+            pj.style.display = "none";
+        } else if(this.value === 'PJ') {
+            pf.style.display = "none";
+            pj.style.display = "block";
+        } else {
+            pf.style.display = "none";
+            pj.style.display = "none";
+        }
+    });
+    
+    window.addEventListener('DOMContentLoaded', () => {
+        if(tipo.value === 'PF'){
+            pf.style.display = "block";
+            pj.style.display = "none";
+        } else {
+            pf.style.display = "none";
+            pj.style.display = "block";
+        }
+    });
+
+    //testar sem DOMContentLoaded, vai dar bug no update, n ira aparecer campo CPF e CNPJ*/
+    //depois corrigir script para:/*
+    /* linha 32
+    function atualizarCampos(){
+        if (tipo.value === 'PF'){
+            pf.style.display = "block";
+            pj.style.display = "none";
+        } else if (tipo.value === 'PJ'){
+            pf.style.display = "block";
+            pj.style.display = "none";
+        } else {
+            pf.style.display = "none";
+            pj.style.display = "none";
+        }
+    }
+    window.addEventListener('DOMContentLoaded', atualizarCampos)
+    tipo.addEventListener('change', atualizarCampos) */
+</script>
