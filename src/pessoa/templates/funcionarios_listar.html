@@ -1,0 +1,20 @@
+<!DOCTYPE hmtl>
+<html>
+<head>
+</head>
+<body>
+	<h1>Lista de Funcionários</h1>
+	<a href="{% url 'funcionario_adicionar' %}">Cadastrar Novo Funcionário</a>
+	<ul>
+		{% for funcionario in funcionarios %}
+		<li>
+			{{ funcionario }}
+			<a href="{% url 'funcionario_editar' funcionario.pk %}">Editar Funcionário</a>
+			<a href="{% url 'funcionario_deletar' funcionario.pk %}">Deletar Funcionário</a>
+		</li>
+		{% empty %}
+		<li>Não há funcionários cadastrados</li>
+		{% endfor %}
+	</ul>
+</body>
+</html>

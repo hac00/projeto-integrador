@@ -1,6 +1,6 @@
 from django.db import models
 
-#from stdimage import StdImageField
+from stdimage import StdImageField
 
 class Pessoa(models.Model):
 	nome = models.CharField('Nome', max_length=100, help_text='Nome completo')
@@ -40,3 +40,19 @@ class Cliente(models.Model):
 	    elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
 	        return self.pessoa_juridica.nome
 	    return 'Cliente sem pessoa vinculada'
+
+class Funcionario(PessoaFisica):
+	foto = StdImageField('Foto', upload_to='funcionarios/', null=True, blank=True)
+	salario = models.DecimalField('Salário', max_digits=10, decimal_places=2)
+	data_admissao = models.DateTimeField('Data de admissão')
+	data_demissao = models.DateTimeField('Data de demissão', null=True, blank=True)
+	ativo = models.BooleanField('Ativo', default=True)
+	gerente = models.BooleanField('Gerente', default=False)
+
+	class Meta:
+		verbose_name = 'Funcionário'
+		verbose_name_plural = 'Funcionários'
+
+	def __str__(self):
+		cargo = 'Gerente' if self.gerente else 'Funcionário'
+		return f'{self.nome} - {cargo}'

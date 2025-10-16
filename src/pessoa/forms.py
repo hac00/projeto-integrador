@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import PessoaFisica, PessoaJuridica, Cliente
+from .models import PessoaFisica, PessoaJuridica, Cliente, Funcionario
 
 class ClienteForm(forms.ModelForm):
 	tipoCliente = forms.ChoiceField(choices=[('PF', 'Pessoa Física'), ('PJ', 'Pessoa Jurídica')], label='Tipo de Cliente')
@@ -71,3 +71,22 @@ class ClienteForm(forms.ModelForm):
 
 		return cliente
 
+class FuncionarioForm(forms.ModelForm):
+	class Meta:
+		model = Funcionario
+		fields = [
+			'nome',
+			'telefone',
+			'email',
+			'cpf',
+			'foto',
+			'salario',
+			'data_admissao',
+			'data_demissao',
+			'ativo',
+			'gerente',
+		]
+		widgets = {
+			'data_admissao': forms.DateInput(attrs={'type':'date'}),
+			'data_demissao': forms.DateInput(attrs={'type':'date'}),
+		}

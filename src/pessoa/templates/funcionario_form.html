@@ -1,0 +1,8 @@
+<h2>{% if object %}Editar Funcionário{% else %}Cadastrar Funcionário{% endif %}</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+    <button href="{% url 'funcionario_listar' %}">Cancelar</button>
+</form>
+</form>

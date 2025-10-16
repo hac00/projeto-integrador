@@ -1,0 +1,15 @@
+<!DOCTYPE hmtl>
+<html>
+<head>
+</head>
+<body>
+	<h2>Excluir Funcionários</h2>
+	<p>Tem certeza que deseja excluir o funcionário <strong>{{ object }}</strong>?</p>
+	
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit">Confirmar Exclusão</button>
+		<a href="{% url 'funcionario_listar' %}">Cancelar</a>
+	</form>
+</body>
+</html>
