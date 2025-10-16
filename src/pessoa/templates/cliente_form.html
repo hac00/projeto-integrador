@@ -1,4 +1,4 @@
-<h2>Cadastrar Cliente</h2>
+<h2>{% if object %}Editar Cliente{% else %}Cadastrar Cliente{% endif %}</h2>
 <form method="post">
     {% csrf_token %}
     <label for="id_tipoCliente">Tipo de Cliente:</label>

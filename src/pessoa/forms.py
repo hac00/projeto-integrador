@@ -20,26 +20,54 @@ class ClienteForm(forms.ModelForm):
 		telefone = self.cleaned_data['telefone']
 		email = self.cleaned_data['email']
 
+    # Pega a instância existente se houver (Update), senão None (Create)
+		cliente = super().save(commit=False)
+
 		if tipoCliente == 'PF':
-			pessoa = PessoaFisica(
-				nome=nome,
-				telefone=telefone,
-				email=email,
-				cpf=self.cleaned_data['cpf']
-			)
-			pessoa.save()
-			cliente = Cliente(tipoCliente=tipoCliente, pessoa_fisica=pessoa)
-		else:
-			pessoa = PessoaJuridica(
-			    nome=nome,
-			    telefone=telefone,
-			    email=email,
-			    cnpj=self.cleaned_data['cnpj']
-			)
-			pessoa.save()
-			cliente = Cliente(tipoCliente=tipoCliente, pessoa_juridica=pessoa)
+			if cliente.pessoa_fisica:
+	            # Update da PessoaFisica existente
+				pessoa = cliente.pessoa_fisica
+				pessoa.nome = nome
+				pessoa.telefone = telefone
+				pessoa.email = email
+				pessoa.cpf = self.cleaned_data['cpf']
+				if commit:
+					pessoa.save()
+			else:
+	            # Create (somente se realmente não houver)
+				pessoa = PessoaFisica(
+					nome=nome,
+					telefone=telefone,
+					email=email,
+					cpf=self.cleaned_data['cpf']
+				)
+				if commit:
+					pessoa.save()
+			cliente.pessoa_fisica = pessoa
+			cliente.pessoa_juridica = None
+		else:  # PJ
+			if cliente.pessoa_juridica:
+				pessoa = cliente.pessoa_juridica
+				pessoa.nome = nome
+				pessoa.telefone = telefone
+				pessoa.email = email
+				pessoa.cnpj = self.cleaned_data['cnpj']
+				if commit:
+					pessoa.save()
+			else:
+				pessoa = PessoaJuridica(
+					nome=nome,
+					telefone=telefone,
+					email=email,
+					cnpj=self.cleaned_data['cnpj']
+				)
+				if commit:
+					pessoa.save()
+			cliente.pessoa_juridica = pessoa
+			cliente.pessoa_fisica = None
 
 		if commit:
-		    cliente.save()
+			cliente.save()
 
 		return cliente
+
