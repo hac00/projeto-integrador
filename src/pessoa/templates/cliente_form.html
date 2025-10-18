@@ -1,73 +1,74 @@
 <h2>{% if object %}Editar Cliente{% else %}Cadastrar Cliente{% endif %}</h2>
+
 <form method="post">
     {% csrf_token %}
-    <label for="id_tipoCliente">Tipo de Cliente:</label>
-    {{ form.tipoCliente }}
+
+    {% if form.non_field_errors %}
+        <ul class="errorlist">
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
     <p>
-        <label for="id_nome">Nome: </label>
+        <label for="id_tipoCliente">Tipo de Cliente:</label>
+        {{ form.tipoCliente }}
+        {{ form.tipoCliente.errors }}
+    </p>
+
+    <p>
+        <label for="id_nome">Nome:</label>
         {{ form.nome }}
+        {{ form.nome.errors }}
     </p>
+
     <p>
-        <label for="id_telefone">Telefone: </label>
+        <label for="id_telefone">Telefone:</label>
         {{ form.telefone }}
+        {{ form.telefone.errors }}
     </p>
+
     <p>
-        <label for="id_email">E-mail: </label>
+        <label for="id_email">E-mail:</label>
         {{ form.email }}
+        {{ form.email.errors }}
     </p>
+
     <div id="campoPF" style="display:none;">
-        <label for="id_pf">CPF: </label>
+        <label for="id_cpf">CPF:</label>
         {{ form.cpf }}
+        {{ form.cpf.errors }}
     </div>
+
     <div id="campoPJ" style="display:none;">
-        <label for="id_pj">CNPJ: </label>
+        <label for="id_cnpj">CNPJ:</label>
         {{ form.cnpj }}
+        {{ form.cnpj.errors }}
     </div>
+
     <button type="submit">Salvar</button>
-	<button href="{% url 'clientes_listar' %}">Cancelar</button>
+    <a href="{% url 'cliente_listar' %}">Cancelar</a>
 </form>
+
 <script>
     const tipo = document.getElementById("id_tipoCliente");
     const pf = document.getElementById("campoPF");
     const pj = document.getElementById("campoPJ");
-    tipo.addEventListener('change', function(){
-        if(this.value === 'PF'){
-            pf.style.display = "block";
-            pj.style.display = "none";
-        } else if(this.value === 'PJ') {
-            pf.style.display = "none";
-            pj.style.display = "block";
-        } else {
-            pf.style.display = "none";
-            pj.style.display = "none";
-        }
-    });
-    
-    window.addEventListener('DOMContentLoaded', () => {
+
+    function atualizarCampos(){
         if(tipo.value === 'PF'){
             pf.style.display = "block";
             pj.style.display = "none";
-        } else {
+        } else if(tipo.value === 'PJ') {
             pf.style.display = "none";
             pj.style.display = "block";
-        }
-    });
-
-    //testar sem DOMContentLoaded, vai dar bug no update, n ira aparecer campo CPF e CNPJ*/
-    //depois corrigir script para:/*
-    /* linha 32
-    function atualizarCampos(){
-        if (tipo.value === 'PF'){
-            pf.style.display = "block";
-            pj.style.display = "none";
-        } else if (tipo.value === 'PJ'){
-            pf.style.display = "block";
-            pj.style.display = "none";
         } else {
             pf.style.display = "none";
             pj.style.display = "none";
         }
     }
-    window.addEventListener('DOMContentLoaded', atualizarCampos)
-    tipo.addEventListener('change', atualizarCampos) */
+
+    window.addEventListener('DOMContentLoaded', atualizarCampos);
+    tipo.addEventListener('change', atualizarCampos);
 </script>

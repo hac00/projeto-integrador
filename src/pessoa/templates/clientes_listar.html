@@ -5,16 +5,40 @@
 <body>
 	<h1>Lista de Clientes</h1>
 	<a href="{% url 'cliente_adicionar' %}">Cadastrar Novo Cliente</a>
-	<ul>
+	<table>
+		<thead>
+			<th>Nome</th>
+			<th>Telefone</th>
+			<th>Email</th>
+			<th>Data Cadastro</th>
+			<th>Tipo</th>
+			<th>CPF/CNPJ</th>
+			<th>Ações</th>
+		</thead>
+		<tbody>
 		{% for cliente in clientes %}
-		<li>
-			{{ cliente }}
-			<a href="{% url 'cliente_editar' cliente.pk %}">Editar Cliente</a>
-			<a href="{% url 'cliente_deletar' cliente.pk %}">Deletar Cliente</a>
-		</li>
+			<tr>
+				<td>{{ cliente.nome }}</td>
+				<td>{{ cliente.telefone }}</td>
+				<td>{{ cliente.email }}</td>
+				<td>{{ cliente.data_cadastro }}</td>
+				<td>{% if cliente.tipoCliente == 'PF' %}Pessoa Física {% else %}Pessoa Jurídica{% endif %}</td>
+				<td>
+					{% if cliente.tipoCliente == 'PF' %}
+						{{ cliente.pessoa_fisica.cpf }}
+					{% else %}
+						{{ cliente.pessoa_juridica.cnpj }}
+					{% endif %}
+				</td>
+				<td>
+					<a href="{% url 'cliente_editar' cliente.pk %}">Editar Cliente</a>
+					<a href="{% url 'cliente_deletar' cliente.pk %}">Deletar Cliente</a>
+				</td>
+			</tr>
 		{% empty %}
-		<li>Não há clientes cadastrados</li>
+			<tr><td colspan="8">Não existem clientes cadastrados</td></tr>
 		{% endfor %}
-	</ul>
+		</tbody>
+	</table>
 </body>
 </html>

@@ -16,7 +16,11 @@ class ClienteCreateView(CreateView):
 	model = Cliente
 	form_class = ClienteForm
 	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('clientes_listar')
+	success_url = reverse_lazy('cliente_listar')
+
+	def form_valid(self, form):
+		form.save()
+		return super().form_valid(form)
     
 class ClienteListView(ListView):
     model = Cliente
@@ -27,7 +31,7 @@ class ClienteUpdateView(UpdateView):
 	model = Cliente
 	form_class = ClienteForm
 	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('clientes_listar')
+	success_url = reverse_lazy('cliente_listar')
 
 	def get_initial(self):
 		initial = super().get_initial()
@@ -51,6 +55,10 @@ class ClienteUpdateView(UpdateView):
 				'tipoCliente': 'PJ'
 			})
 		return initial
+
+	def form_valid(self, form):
+		form.save()
+		return super().form_valid(form)		
         
 class ClienteDeleteView(DeleteView):
     model = Cliente
@@ -63,6 +71,15 @@ class FuncionarioCreateView(CreateView):
 	form_class = FuncionarioForm
 	template_name = 'funcionario_form.html'
 	success_url = reverse_lazy('funcionario_listar')
+
+	def form_valid(self, form):
+		funcionario = form.save(commit=False)
+		if not funcionario.data_demissao:
+			funcionario.ativo = True
+		else:
+			funcionario.ativo = False
+		funcionario.save()
+		return super().form_valid(form)	
     
 class FuncionarioListView(ListView):
     model = Funcionario

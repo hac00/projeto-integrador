@@ -5,16 +5,36 @@
 <body>
 	<h1>Lista de Funcionários</h1>
 	<a href="{% url 'funcionario_adicionar' %}">Cadastrar Novo Funcionário</a>
-	<ul>
+	<table>
+		<thead>
+			<th>Nome</th>
+			<th>Telefone</th>
+			<th>Email</th>
+			<th>CPF</th>
+			<th>Data Admissao</th>
+			<th>Data Demissao</th>
+			<th>Ativo</th>
+			<th>Ações</th>
+		</thead>
+		<tbody>
 		{% for funcionario in funcionarios %}
-		<li>
-			{{ funcionario }}
-			<a href="{% url 'funcionario_editar' funcionario.pk %}">Editar Funcionário</a>
-			<a href="{% url 'funcionario_deletar' funcionario.pk %}">Deletar Funcionário</a>
-		</li>
+			<tr>
+				<td>{{ funcionario.nome }}</td>
+				<td>{{ funcionario.telefone }}</td>
+				<td>{{ funcionario.email }}</td>
+				<td>{{ funcionario.cpf }}</td>
+				<td>{{ funcionario.data_admissao }}</td>
+				<td>{{ funcionario.data_demissao|default:"-" }}</td>
+				<td>{% if funcionario.ativo %}Ativo{% else %}Inativo{% endif %}</td>
+				<td>
+					<a href="{% url 'funcionario_editar' funcionario.pk %}">Editar Funcionário</a>
+					<a href="{% url 'funcionario_deletar' funcionario.pk %}">Deletar Funcionário</a>
+				</td>
+			</tr>
 		{% empty %}
-		<li>Não há funcionários cadastrados</li>
+			<tr><td colspan="8">Não há funcionários cadastrados</td></tr>
 		{% endfor %}
-	</ul>
+		</tbody>
+	</table>
 </body>
 </html>
