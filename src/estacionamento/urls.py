@@ -12,4 +12,5 @@ urlpatterns = [
     path('movimentacoes/entrada/', views.MovimentacaoEntradaView.as_view(), name='movimentacao_entrada'),
     path('movimentacoes/<int:pk>/saida/', views.MovimentacaoSaidaView.as_view(), name='movimentacao_saida'),
     path('movimentacoes/<int:pk>/deletar/', views.MovimentacaoDeleteView.as_view(), name='movimentacao_deletar'),
+    path('relatorios/', views.RelatorioMovimentacaoView.as_view(), name='relatorios'),
 ]

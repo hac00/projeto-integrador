@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container py-4">
+    <h2>Relatório de Movimentações</h2>
+
+    <form method="get" class="row g-2 mb-4">
+        <div class="col-md-3">
+            <input type="date" name="data_inicio" class="form-control" value="{{ data_inicio }}">
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="data_fim" class="form-control" value="{{ data_fim }}">
+        </div>
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="ativa" {% if status == 'ativa' %}selected{% endif %}>Ativa</option>
+                <option value="finalizada" {% if status == 'finalizada' %}selected{% endif %}>Finalizada</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+        </div>
+    </form>
+
+    <div class="mb-3">
+        <p><strong>Total Movimentações:</strong> {{ total_movimentacoes }}</p>
+        <p><strong>Total Arrecadado:</strong> R$ {{ total_valor }}</p>
+        <p><strong>Média de horas:</strong> {{ media_horas }}h</p>
+    </div>
+
+    <div class="table-responsive shadow-sm">
+        <table class="table table-hover table-striped table-bordered align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Veículo</th>
+                    <th>Vaga</th>
+                    <th>Funcionário</th>
+                    <th>Entrada</th>
+                    <th>Saída</th>
+                    <th>Valor Pago</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in movimentacoes %}
+                <tr>
+                    <td>{{ m.veiculo }}</td>
+                    <td>{{ m.vaga }}</td>
+                    <td>{{ m.funcionario }}</td>
+                    <td>{{ m.entrada|date:"d/m/Y H:i" }}</td>
+                    <td>{% if m.saida %}{{ m.saida|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+                    <td>{% if m.valor %}R$ {{ m.valor }}{% else %}-{% endif %}</td>
+                    <td>{{ m.get_status_display }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">Nenhuma movimentação encontrada.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
