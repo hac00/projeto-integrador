@@ -1,9 +1,86 @@
-<!DOCTYPE hmtl>
-<html>
-<head>
-</head>
-<body>
-	<a href="{% url 'cliente_adicionar' %}">Cadastrar Cliente</a>
-	<a href="{% url 'cliente_listar' %}">Visualizar Clientes</a>
-</body>
-</html>
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+<div class="container py-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Clientes</h2>
+    <a href="{% url 'cliente_adicionar' %}" class="btn btn-primary">
+      + Novo Cliente
+    </a>
+  </div>
+
+  <!-- Campo de busca -->
+  <div class="mb-3">
+    <input type="text" id="filtro" class="form-control" placeholder="Buscar cliente por nome, CPF ou CNPJ...">
+  </div>
+
+  <!-- Tabela de clientes -->
+  <div class="table-responsive shadow-sm">
+    <table class="table table-hover table-striped table-bordered align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>Email</th>
+          <th>Data Cadastro</th>
+          <th>Tipo</th>
+          <th>CPF/CNPJ</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody id="tabelaClientes">
+        {% for cliente in clientes %}
+        <tr>
+          <td>{{ cliente.nome }}</td>
+          <td>{{ cliente.telefone }}</td>
+          <td>{{ cliente.email }}</td>
+          <td>{{ cliente.data_cadastro|date:"d/m/Y" }}</td>
+          <td>
+            {% if cliente.tipoCliente == 'PF' %}
+              Pessoa Física
+            {% else %}
+              Pessoa Jurídica
+            {% endif %}
+          </td>
+          <td>
+            {% if cliente.tipoCliente == 'PF' %}
+              {{ cliente.pessoa_fisica.cpf }}
+            {% else %}
+              {{ cliente.pessoa_juridica.cnpj }}
+            {% endif %}
+          </td>
+          <td class="text-center">
+            <a href="{% url 'cliente_editar' cliente.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+            <a href="{% url 'cliente_deletar' cliente.pk %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="text-center text-muted">Nenhum cliente cadastrado.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Script de filtro -->
+<script>
+  const filtro = document.getElementById('filtro');
+  const tabela = document.getElementById('tabelaClientes');
+
+  filtro.addEventListener('keyup', () => {
+    const termo = filtro.value.toLowerCase();
+    const linhas = tabela.getElementsByTagName('tr');
+
+    for (let i = 0; i < linhas.length; i++) {
+      const texto = linhas[i].innerText.toLowerCase();
+      linhas[i].style.display = texto.includes(termo) ? '' : 'none';
+    }
+  });
+</script>
+
+{% endblock %}

@@ -1,15 +1,23 @@
-<!DOCTYPE hmtl>
-<html>
-<head>
-</head>
-<body>
-	<h2>Excluir Cliente</h2>
-	<p>Tem certeza que deseja excluir o cliente <strong>{{ object }}</strong>?</p>
-	
-	<form method="post">
-		{% csrf_token %}
-		<button type="submit">Confirmar Exclusão</button>
-		<a href="{% url 'cliente_listar' %}">Cancelar</a>
-	</form>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="card shadow-lg border-0 mx-auto" style="max-width: 700px; min-height: 50vh">
+    <div class="card-header bg-danger text-white text-center">
+        <h3 class="mb-0">Excluir Cliente</h3>
+	</div>
+    <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+	    <p class="fs-5 mb-4">
+            Tem certeza que deseja excluir o cliente <strong>{{ object }}</strong>?
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-flex justify-content-center gap-3">
+                <button type="submit" class="btn btn-danger px-4">Confirmar Exclusão</button>
+                <a href="{% url 'clientes' %}" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

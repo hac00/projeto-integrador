@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     'django_bootstrap5',
+    'widget_tweaks',
 ]
 
 INSTALLED_APPS += [

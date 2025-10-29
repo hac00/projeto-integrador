@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load django_bootstrap5 %}
 
 {% block title %}Início - Estacionamento{% endblock %}
 
 {% block content %}
 <div class="home-content text-center d-flex flex-column justify-content-center align-items-center">
-    <h1 class="mb-3">Bem-vindo ao Sistema de Estacionamento</h1>
-    <p class="lead mb-4">Escolha uma opção:</p>
+<h1 class="mb-5">Bem-vindo ao Sistema de Estacionamento</h1>
 
     <div class="mb-4">
-        <a class="btn btn-primary mx-1" href="#">Pessoas</a>
+        <a class="btn btn-primary mx-1" href="{% url 'clientes' %}">Cliente</a>
+        <a class="btn btn-primary mx-1" href="{% url 'funcionarios' %}">Funcionario</a>
         <a class="btn btn-secondary mx-1" href="#">Veículos</a>
         <a class="btn btn-success mx-1" href="#">Estacionamento</a>
     </div>

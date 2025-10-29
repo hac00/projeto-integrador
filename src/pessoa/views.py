@@ -4,19 +4,20 @@ from django.urls import reverse_lazy
 from .models import Cliente, Funcionario
 from .forms import ClienteForm, FuncionarioForm
 
+'''
 # Template View
 class ClienteView(TemplateView):
     template_name = 'clientes.html'
 
 class FuncionarioView(TemplateView):
     template_name = 'funcionarios.html'
-
+'''
 # CRUD Cliente
 class ClienteCreateView(CreateView):
 	model = Cliente
 	form_class = ClienteForm
 	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('cliente_listar')
+	success_url = reverse_lazy('clientes')
 
 	def form_valid(self, form):
 		form.save()
@@ -24,14 +25,14 @@ class ClienteCreateView(CreateView):
     
 class ClienteListView(ListView):
     model = Cliente
-    template_name = 'clientes_listar.html'
+    template_name = 'clientes.html'
     context_object_name = 'clientes'
 
 class ClienteUpdateView(UpdateView):
 	model = Cliente
 	form_class = ClienteForm
 	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('cliente_listar')
+	success_url = reverse_lazy('clientes')
 
 	def get_initial(self):
 		initial = super().get_initial()
@@ -70,7 +71,7 @@ class FuncionarioCreateView(CreateView):
 	model = Funcionario
 	form_class = FuncionarioForm
 	template_name = 'funcionario_form.html'
-	success_url = reverse_lazy('funcionario_listar')
+	success_url = reverse_lazy('funcionarios')
 
 	def form_valid(self, form):
 		funcionario = form.save(commit=False)
@@ -83,14 +84,14 @@ class FuncionarioCreateView(CreateView):
     
 class FuncionarioListView(ListView):
     model = Funcionario
-    template_name = 'funcionarios_listar.html'
+    template_name = 'funcionarios.html'
     context_object_name = 'funcionarios'
 
 class FuncionarioUpdateView(UpdateView):
 	model = Funcionario
 	form_class = FuncionarioForm
 	template_name = 'funcionario_form.html'
-	success_url = reverse_lazy('funcionario_listar')
+	success_url = reverse_lazy('funcionarios')
         
 class FuncionarioDeleteView(DeleteView):
     model = Funcionario
