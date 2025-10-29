@@ -7,7 +7,6 @@ from .models import Vaga, Movimentacao
 from .forms import MovimentacaoEntradaForm
 from django.utils import timezone
 
-# --- Vagas ---
 
 class VagaListView(ListView):
     model = Vaga
@@ -31,7 +30,7 @@ class VagaDeleteView(DeleteView):
     template_name = "vaga_deletar.html"
     success_url = reverse_lazy('vagas')
 
-# --- Movimentacoes ---
+
 
 class MovimentacaoListView(ListView):
     model = Movimentacao

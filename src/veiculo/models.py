@@ -1,5 +1,5 @@
 from django.db import models
-from pessoa.models import Cliente  # assumindo que Cliente já existe
+from pessoa.models import Cliente
 
 class Veiculo(models.Model):
     TIPO_CHOICES = [
