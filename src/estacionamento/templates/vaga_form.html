@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-primary text-white text-center">
+      <h3 class="mb-0">{% if object %}Editar Vaga{% else %}Cadastrar Vaga{% endif %}</h3>
+    </div>
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-success px-4 me-2">💾 Salvar</button>
+          <a href="{% url 'vagas' %}" class="btn btn-secondary px-4">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

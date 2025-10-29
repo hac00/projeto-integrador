@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-danger text-white text-center">
+      <h3 class="mb-0">Excluir Movimentação</h3>
+    </div>
+    <div class="card-body text-center">
+      <p>Tem certeza que deseja excluir a movimentação do veículo <strong>{{ object.veiculo }}</strong>?</p>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger me-2">Confirmar Exclusão</button>
+        <a href="{% url 'movimentacoes' %}" class="btn btn-secondary">Cancelar</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4" style="max-width:600px;">
+    <h2>Finalizar Estadia</h2>
+    <p>Deseja finalizar a estadia do veículo <strong>{{ object.veiculo }}</strong> na vaga <strong>{{ object.vaga.numero }}</strong>?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Finalizar</button>
+        <a href="{% url 'movimentacoes' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
