@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% load django_bootstrap5 %}
+{% block content %}
+
+<div class="d-flex flex-column flex-grow-1 justify-content-between align-items-center py-3">
+
+  <div class="card shadow-lg border-0 w-50">
+    <div class="card-header bg-primary text-white text-center">
+      <h3 class="mb-0">
+        {% if object %}Editar Pessoa Jurídica{% else %}Cadastrar Pessoa Jurídica{% endif %}
+      </h3>
+    </div>
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+      {% bootstrap_button button_type="submit" content="Salvar" %}
+      </form>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+{% endblock %}

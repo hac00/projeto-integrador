@@ -1,8 +1,8 @@
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 
-from .models import Cliente, Funcionario
-from .forms import ClienteForm, FuncionarioForm
+from .models import Pessoa, PessoaFisica, PessoaJuridica, Funcionario
+from .forms import PessoaFisicaForm, PessoaJuridicaForm, FuncionarioForm
 
 '''
 # Template View
@@ -13,20 +13,49 @@ class FuncionarioView(TemplateView):
     template_name = 'funcionarios.html'
 '''
 # CRUD Cliente
-class ClienteCreateView(CreateView):
-	model = Cliente
-	form_class = ClienteForm
-	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('clientes')
+class PessoaFisicaCreateView(CreateView):
+	model = PessoaFisica
+	form_class = PessoaFisicaForm
+	template_name = 'pessoa_fisica_form.html'
+	success_url = reverse_lazy('pessoas')
 
-	def form_valid(self, form):
-		form.save()
-		return super().form_valid(form)
-    
+class PessoaJuridicaCreateView(CreateView):
+	model = PessoaJuridica
+	form_class = PessoaJuridicaForm
+	template_name = 'pessoa_juridica_form.html'
+	success_url = reverse_lazy('pessoas')
+
+class PessoaView(ListView):
+	model = Pessoa
+	template_name = 'pessoas.html'
+	#success_url = reverse_lazy('pessoa_fisica_form')
+	context_object_name = 'pessoa'
+
+	def get_queryset(self):
+		buscar = self.request.GET.get('buscar')
+		qs = super(PessoaView, self).get_queryset()
+		qs = qs.exclude(id__in=Funcionario.objects.values_list('id', flat=True))
+		# if buscar:
+		# 	return qs.filter(nome__icontains=buscar)
+		return qs
+
+'''    
 class ClienteListView(ListView):
     model = Cliente
     template_name = 'clientes.html'
     context_object_name = 'clientes'
+
+class ClienteListView(ListView):
+	model = Cliente
+	template_name = 'clientes.html'
+	context_object_name = 'clientes'
+
+	def get_queryset(self):
+		buscar = self.request.GET.get('buscar')
+		qs = super(ClienteListView, self).get_queryset()
+		# if buscar:
+		# 	return qs.filter(nome__icontains=buscar)
+		return qs
 
 class ClienteUpdateView(UpdateView):
 	model = Cliente
@@ -65,7 +94,7 @@ class ClienteDeleteView(DeleteView):
     model = Cliente
     template_name = 'cliente_deletar.html'
     success_url = reverse_lazy('clientes')
-
+'''
 # CRUD Funcionario
 class FuncionarioCreateView(CreateView):
 	model = Funcionario

@@ -6,10 +6,15 @@
 <div class="container py-4">
 
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="mb-0">Clientes</h2>
-    <a href="{% url 'cliente_adicionar' %}" class="btn btn-primary">
-      + Novo Cliente
+    <h2 class="mb-0">Pessoas</h2>
+      <div class="ml-1">
+    <a href="{% url 'pessoaf' %}" class="btn btn-primary">
+      + Nova Pessoa Física
     </a>
+    <a href="{% url 'pessoaj' %}" class="btn btn-primary">
+      + Nova Pessoa Jurídica
+    </a>
+          </div>
   </div>
 
   <!-- Campo de busca -->
@@ -18,7 +23,7 @@
   </div>
 
   <!-- Tabela de clientes -->
-{% if clientes %}
+{% if pessoa %}
   <div class="table-responsive shadow-sm">
     <table class="table table-hover table-striped table-bordered align-middle">
       <thead class="table-light">
@@ -27,35 +32,22 @@
           <th>Telefone</th>
           <th>Email</th>
           <th>Data Cadastro</th>
-          <th>Tipo</th>
-          <th>CPF/CNPJ</th>
+
+          <th>CPF</th>
           <th class="text-center">Ações</th>
         </tr>
       </thead>
-      <tbody id="tabelaClientes">
-        {% for cliente in clientes %}
+      <tbody">
+        {% for pessoa in pessoa %}
         <tr>
-          <td>{{ cliente.nome }}</td>
-          <td>{{ cliente.telefone }}</td>
-          <td>{{ cliente.email }}</td>
-          <td>{{ cliente.data_cadastro|date:"d/m/Y" }}</td>
-          <td>
-            {% if cliente.tipoCliente == 'PF' %}
-              Pessoa Física
-            {% else %}
-              Pessoa Jurídica
-            {% endif %}
-          </td>
-          <td>
-            {% if cliente.tipoCliente == 'PF' %}
-              {{ cliente.pessoa_fisica.cpf }}
-            {% else %}
-              {{ cliente.pessoa_juridica.cnpj }}
-            {% endif %}
-          </td>
+          <td>{{ pessoa.nome }}</td>
+          <td>{{ pessoa.telefone }}</td>
+          <td>{{ pessoa.email }}</td>
+          <td>{{ pessoa.data_cadastro|date:"d/m/Y" }}</td>
+            <td>{{ pessoa.cpf }}</td>
           <td class="text-center">
-            <a href="{% url 'cliente_editar' cliente.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
-            <a href="{% url 'cliente_deletar' cliente.pk %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+            <a href="#" class="btn btn-sm btn-outline-secondary">Editar</a>
+            <a href="#" class="btn btn-sm btn-outline-danger">Excluir</a>
           </td>
         </tr>
         {% empty %}

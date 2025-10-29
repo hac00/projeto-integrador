@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PessoaFisica, PessoaJuridica, Cliente
+from .models import PessoaFisica, PessoaJuridica
 
 @admin.register(PessoaFisica)
 class PessoaFisicaAdmin(admin.ModelAdmin):
@@ -9,6 +9,4 @@ class PessoaFisicaAdmin(admin.ModelAdmin):
 class PessoaJuridicaAdmin(admin.ModelAdmin):
     list_display = ('nome', 'cnpj', 'telefone', 'email')
 
-@admin.register(Cliente)
-class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('__str__', 'tipoCliente', 'pessoa_fisica', 'pessoa_juridica')
+

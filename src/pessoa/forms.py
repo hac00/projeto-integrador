@@ -1,8 +1,21 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from .models import PessoaFisica, PessoaJuridica, Cliente, Funcionario
+from .models import PessoaFisica, PessoaJuridica, PessoaFisica, Funcionario
 
+class PessoaFisicaForm(forms.ModelForm):
+    class Meta:
+        model = PessoaFisica
+        fields = ['nome', 'cpf', 'telefone', 'email']
+
+class PessoaJuridicaForm(forms.ModelForm):
+    class Meta:
+        model = PessoaJuridica
+        fields = '__all__'
+
+
+
+'''
 class ClienteForm(forms.ModelForm):
     tipoCliente = forms.ChoiceField(
         choices=[('PF', 'Pessoa Física'), ('PJ', 'Pessoa Jurídica')],
@@ -27,6 +40,7 @@ class ClienteForm(forms.ModelForm):
                 raise ValidationError("Já existe um cliente cadastrado com esse CPF.")
         return cpf
 
+    # Pessoa.objects.exclude(id__in(Funcionario.objects.values_list('id_cliente', flat=True))):
     def clean_cnpj(self):
         cnpj = self.cleaned_data.get('cnpj')
         tipo = self.cleaned_data.get('tipoCliente')
@@ -89,7 +103,7 @@ class ClienteForm(forms.ModelForm):
             cliente.save()
 
         return cliente
-
+'''
 class FuncionarioForm(forms.ModelForm):
 	class Meta:
 		model = Funcionario

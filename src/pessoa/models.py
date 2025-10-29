@@ -9,7 +9,7 @@ class Pessoa(models.Model):
 	data_cadastro = models.DateField(auto_now_add=True)
 
 	class Meta:
-		abstract = True
+		abstract = False
 
 class PessoaFisica(Pessoa):
 	cpf = models.CharField('Cpf', max_length=14, help_text='Cpf da pessoa', unique=True)
@@ -23,62 +23,62 @@ class PessoaJuridica(Pessoa):
 	def __str__(self):
 		return f'{self.nome} - CNPJ: {self.cnpj}'
 
-class Cliente(models.Model):
-	TIPO_CHOICES = [('PF', 'Pessoa Física'),('PJ', 'Pessoa Juridica')]
-	tipoCliente = models.CharField('Tipo', max_length=2, choices=TIPO_CHOICES)
-	pessoa_fisica = models.OneToOneField(PessoaFisica, on_delete=models.CASCADE, null=True, blank=True, related_name='clientes_pf')
-	pessoa_juridica = models.OneToOneField(PessoaJuridica, on_delete=models.CASCADE, null=True, blank=True, related_name='clientes_pj')
-
-	class Meta:
-		verbose_name = 'Cliente'
-		verbose_name_plural = 'Clientes'
-		#ordering = [Upper('nome')] Como ordenar por nome?
-
-	def __str__(self):
-		if self.tipoCliente == 'PF' and self.pessoa_fisica:
-			return self.pessoa_fisica.nome
-		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
-			return self.pessoa_juridica.nome
-		return 'Cliente sem pessoa vinculada'
-
-	@property
-	def nome(self):
-		if self.tipoCliente == 'PF' and self.pessoa_fisica:
-			return self.pessoa_fisica.nome
-		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
-			return self.pessoa_juridica.nome
-		return ''
-    
-	@property
-	def telefone(self):
-		if self.tipoCliente == 'PF' and self.pessoa_fisica:
-			return self.pessoa_fisica.telefone
-		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
-			return self.pessoa_juridica.telefone
-		return ''
-
-	@property
-	def email(self):
-		if self.tipoCliente == 'PF' and self.pessoa_fisica:
-			return self.pessoa_fisica.email
-		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
-			return self.pessoa_juridica.email
-		return ''
-	@property
-	def data_cadastro(self):
-		if self.tipoCliente == 'PF' and self.pessoa_fisica:
-			return self.pessoa_fisica.data_cadastro
-		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
-			return self.pessoa_juridica.data_cadastro
-		return ''
-
-	@property
-	def documento(self):
-		if self.tipoCliente == 'PF' and self.pessoa_fisica:
-			return self.pessoa_fisica.cpf
-		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
-			return self.pessoa_juridica.cnpj
-		return ''	
+# class Cliente(models.Model):
+# 	TIPO_CHOICES = [('PF', 'Pessoa Física'),('PJ', 'Pessoa Juridica')]
+# 	tipoCliente = models.CharField('Tipo', max_length=2, choices=TIPO_CHOICES)
+# 	pessoa_fisica = models.OneToOneField(PessoaFisica, on_delete=models.CASCADE, null=True, blank=True, related_name='clientes_pf')
+# 	pessoa_juridica = models.OneToOneField(PessoaJuridica, on_delete=models.CASCADE, null=True, blank=True, related_name='clientes_pj')
+#
+# 	class Meta:
+# 		verbose_name = 'Cliente'
+# 		verbose_name_plural = 'Clientes'
+# 		#ordering = [Upper('nome')] Como ordenar por nome?
+#
+# 	def __str__(self):
+# 		if self.tipoCliente == 'PF' and self.pessoa_fisica:
+# 			return self.pessoa_fisica.nome
+# 		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
+# 			return self.pessoa_juridica.nome
+# 		return 'Cliente sem pessoa vinculada'
+#
+# 	@property
+# 	def nome(self):
+# 		if self.tipoCliente == 'PF' and self.pessoa_fisica:
+# 			return self.pessoa_fisica.nome
+# 		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
+# 			return self.pessoa_juridica.nome
+# 		return ''
+#
+# 	@property
+# 	def telefone(self):
+# 		if self.tipoCliente == 'PF' and self.pessoa_fisica:
+# 			return self.pessoa_fisica.telefone
+# 		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
+# 			return self.pessoa_juridica.telefone
+# 		return ''
+#
+# 	@property
+# 	def email(self):
+# 		if self.tipoCliente == 'PF' and self.pessoa_fisica:
+# 			return self.pessoa_fisica.email
+# 		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
+# 			return self.pessoa_juridica.email
+# 		return ''
+# 	@property
+# 	def data_cadastro(self):
+# 		if self.tipoCliente == 'PF' and self.pessoa_fisica:
+# 			return self.pessoa_fisica.data_cadastro
+# 		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
+# 			return self.pessoa_juridica.data_cadastro
+# 		return ''
+#
+# 	@property
+# 	def documento(self):
+# 		if self.tipoCliente == 'PF' and self.pessoa_fisica:
+# 			return self.pessoa_fisica.cpf
+# 		elif self.tipoCliente == 'PJ' and self.pessoa_juridica:
+# 			return self.pessoa_juridica.cnpj
+# 		return ''
 
 class Funcionario(PessoaFisica):
 	foto = StdImageField('Foto', upload_to='media/funcionarios', null=True, blank=True)
