@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Estacionamento</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Estacionamento</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -17,16 +17,20 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
-
-            <!-- Novas Categorias -->
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pessoas</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="pessoasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Pessoas
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="pessoasDropdown">
+                <li><a class="dropdown-item" href="{% url 'clientes' %}">Clientes</a></li>
+                <li><a class="dropdown-item" href="{% url 'funcionarios' %}">Funcionários</a></li>
+              </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Veículos</a>
+              <a class="nav-link" href="{% url 'veiculos' %}">Veículos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Estacionamento</a>
+              <a class="nav-link" href="{% url 'movimentacoes' %}">Estacionamento</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Sobre</a>
