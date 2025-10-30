@@ -11,6 +11,9 @@ class Pessoa(models.Model):
 	class Meta:
 		abstract = False
 
+	def __str__(self):
+		return self.nome
+
 class PessoaFisica(Pessoa):
 	cpf = models.CharField('Cpf', max_length=14, help_text='Cpf da pessoa', unique=True)
 

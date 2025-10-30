@@ -8,6 +8,9 @@ class VeiculoListView(ListView):
     template_name = 'veiculos.html'
     context_object_name = 'veiculos'
 
+    # def get_queryset(self):
+    #     queryset = Veiculo.objects.all()
+
 class VeiculoCreateView(CreateView):
     model = Veiculo
     form_class = VeiculoForm

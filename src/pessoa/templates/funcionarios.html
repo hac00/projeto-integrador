@@ -38,7 +38,8 @@
                     <tbody id="tabelaFuncionarios">
                         {% for funcionario in funcionarios %}
                         <tr>
-                            <td>{{ funcionario.nome }}</td>
+
+                            <td><a href="{% url 'funcionario_detalhe' funcionario.pk %}">{{ funcionario.nome }}</a></td>
                             <td>{{ funcionario.telefone }}</td>
                             <td>{{ funcionario.email }}</td>
                             <td>{{ funcionario.cpf }}</td>

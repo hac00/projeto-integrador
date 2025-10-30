@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Detalhes do Funcionário</h2>
+
+  <ul class="list-group">
+    <li class="list-group-item"><strong>Nome:</strong> {{ funcionario.nome }}</li>
+    <li class="list-group-item"><strong>Telefone:</strong> {{ funcionario.telefone }}</li>
+    <li class="list-group-item"><strong>Email:</strong> {{ funcionario.email }}</li>
+      {% if funcionario.foto %}
+    <li class="list-group-item"><strong>Foto:</strong> {{ funcionario.foto }}</li>
+      {% endif %}
+    <li class="list-group-item"><strong>Salario:</strong> {{ funcionario.salario }}</li>
+    <li class="list-group-item"><strong>Data Admissao:</strong> {{ funcionario.data_admissao }}</li>
+    <li class="list-group-item"><strong>Data Demissao:</strong> {{ funcionario.data_demissao }}</li>
+    <li class="list-group-item"><strong>Ativo:</strong> {{ funcionario.ativo }}</li>
+    <li class="list-group-item"><strong>Gerente:</strong> {{ funcionario.gerente }}</li>
+  </ul>
+
+  <a href="{% url 'funcionarios' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

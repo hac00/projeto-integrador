@@ -1,4 +1,4 @@
-from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView
+from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView, DetailView
 from django.urls import reverse_lazy
 
 from .models import Pessoa, PessoaFisica, PessoaJuridica, Funcionario
@@ -29,7 +29,7 @@ class PessoaView(ListView):
 	model = Pessoa
 	template_name = 'pessoas.html'
 	#success_url = reverse_lazy('pessoa_fisica_form')
-	context_object_name = 'pessoa'
+	context_object_name = 'pessoas'
 
 	def get_queryset(self):
 		buscar = self.request.GET.get('buscar')
@@ -38,6 +38,14 @@ class PessoaView(ListView):
 		# if buscar:
 		# 	return qs.filter(nome__icontains=buscar)
 		return qs
+
+class PessoaDetailView(DetailView):
+	model = Pessoa
+	# template_name = 'pessoa_detalhe.html'
+	context_object_name = 'pessoa'
+
+	def get_template_names(self):
+		return ['pessoa_detalhe.html']
 
 '''    
 class ClienteListView(ListView):
@@ -126,3 +134,8 @@ class FuncionarioDeleteView(DeleteView):
     model = Funcionario
     template_name = 'funcionario_deletar.html'
     success_url = reverse_lazy('funcionarios')
+
+class FuncionarioDetailView(DetailView):
+	model = Funcionario
+	template_name = 'funcionario_detalhe.html'
+	context_object_name = 'funcionario'
