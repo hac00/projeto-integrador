@@ -4,7 +4,10 @@
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="mb-0">Movimentações</h2>
-    <a href="{% url 'movimentacao_entrada' %}" class="btn btn-primary">+ Registrar Entrada</a>
+    <div class="d-flex justify-content-between">
+      <a href="{% url 'valor' %}" class="btn btn-primary">$ Definir Valor/Hora</a>
+      <a href="{% url 'movimentacao_entrada' %}" class="btn btn-primary ms-3">+ Registrar Entrada</a>
+    </div>
   </div>
 
   <div class="table-responsive shadow-sm">

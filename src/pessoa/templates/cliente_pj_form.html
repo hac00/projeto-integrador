@@ -16,13 +16,13 @@
       <form method="post" novalidate>
         {% csrf_token %}
         {% bootstrap_form form %}
-      {% bootstrap_button button_type="submit" content="Salvar" %}
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success px-4 me-2">Salvar</button>
+            <a href="{% url 'clientes' %}" class="btn btn-danger px-4">Cancelar</a>
+        </div>
       </form>
     </div>
   </div>
-
-
-
 </div>
 
 

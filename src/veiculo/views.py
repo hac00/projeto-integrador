@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Veiculo
 from .forms import VeiculoForm
 
@@ -8,8 +8,12 @@ class VeiculoListView(ListView):
     template_name = 'veiculos.html'
     context_object_name = 'veiculos'
 
-    # def get_queryset(self):
-    #     queryset = Veiculo.objects.all()
+    def get_queryset(self):
+        buscar = self.request.GET.get('buscar')
+        qs = super(VeiculoListView, self).get_queryset()
+        if buscar:
+            return qs.filter(placa__icontains=buscar)
+        return qs
 
 class VeiculoCreateView(CreateView):
     model = Veiculo
@@ -27,3 +31,8 @@ class VeiculoDeleteView(DeleteView):
     model = Veiculo
     template_name = 'veiculo_deletar.html'
     success_url = reverse_lazy('veiculos')
+
+class VeiculoDetailView(DetailView):
+    model = Veiculo
+    template_name = 'veiculo_detalhe.html'
+    context_object_name = 'veiculo'

@@ -2,7 +2,7 @@ from django.views.generic import CreateView, UpdateView, ListView, DeleteView, T
 from django.urls import reverse_lazy
 
 from .models import Pessoa, PessoaFisica, PessoaJuridica, Funcionario
-from .forms import PessoaFisicaForm, PessoaJuridicaForm, FuncionarioForm
+from .forms import ClientePfForm, ClientePjForm, FuncionarioForm
 
 '''
 # Template View
@@ -13,39 +13,61 @@ class FuncionarioView(TemplateView):
     template_name = 'funcionarios.html'
 '''
 # CRUD Cliente
-class PessoaFisicaCreateView(CreateView):
+class ClientePfCreateView(CreateView):
 	model = PessoaFisica
-	form_class = PessoaFisicaForm
-	template_name = 'pessoa_fisica_form.html'
-	success_url = reverse_lazy('pessoas')
+	form_class = ClientePfForm
+	template_name = 'cliente_pf_form.html'
+	success_url = reverse_lazy('clientes')
 
-class PessoaJuridicaCreateView(CreateView):
+class ClientePjCreateView(CreateView):
 	model = PessoaJuridica
-	form_class = PessoaJuridicaForm
-	template_name = 'pessoa_juridica_form.html'
-	success_url = reverse_lazy('pessoas')
+	form_class = ClientePjForm
+	template_name = 'cliente_pj_form.html'
+	success_url = reverse_lazy('clientes')
 
-class PessoaView(ListView):
+class ClientePfUpdateView(UpdateView):
+	model = PessoaFisica
+	form_class = ClientePfForm
+	template_name = 'cliente_pf_form.html'
+	success_url = reverse_lazy('clientes')
+
+class ClientePjUpdateView(UpdateView):
+	model = PessoaJuridica
+	form_class = ClientePjForm
+	template_name = 'cliente_pj_form.html'
+	success_url = reverse_lazy('clientes')
+
+class ClienteListView(ListView):
 	model = Pessoa
-	template_name = 'pessoas.html'
-	#success_url = reverse_lazy('pessoa_fisica_form')
-	context_object_name = 'pessoas'
+	template_name = 'clientes.html'
+	context_object_name = 'clientes'
 
 	def get_queryset(self):
 		buscar = self.request.GET.get('buscar')
-		qs = super(PessoaView, self).get_queryset()
-		qs = qs.exclude(id__in=Funcionario.objects.values_list('id', flat=True))
-		# if buscar:
-		# 	return qs.filter(nome__icontains=buscar)
-		return qs
+		#qs = super(ClienteListView, self).get_queryset()
+		#qs = qs.exclude(id__in=Funcionario.objects.values_list('id', flat=True))
+		pf = PessoaFisica.objects.exclude(id__in=Funcionario.objects.values_list('id', flat=True))
+		pj = PessoaJuridica.objects.all()
+		if buscar:
+			#return qs.filter(nome__icontains=buscar)
+			pf = pf.filter(nome__icontains=buscar)
+			pj = pj.filter(nome__icontains=buscar)
+		#return qs
+		from itertools import chain #chain une as duas tabelas pf & pj
+		return list(chain(pf, pj))
 
-class PessoaDetailView(DetailView):
+class ClienteDetailView(DetailView):
 	model = Pessoa
-	# template_name = 'pessoa_detalhe.html'
-	context_object_name = 'pessoa'
+	template_name = 'cliente_detalhe.html'
+	context_object_name = 'cliente'
 
-	def get_template_names(self):
-		return ['pessoa_detalhe.html']
+	# def get_template_names(self):
+	# 	return ['cliente_detalhe.html']
+
+class ClienteDeleteView(DeleteView):
+    model = Pessoa
+    template_name = 'cliente_deletar.html'
+    success_url = reverse_lazy('clientes')
 
 '''    
 class ClienteListView(ListView):
@@ -98,10 +120,7 @@ class ClienteUpdateView(UpdateView):
 		form.save()
 		return super().form_valid(form)		
         
-class ClienteDeleteView(DeleteView):
-    model = Cliente
-    template_name = 'cliente_deletar.html'
-    success_url = reverse_lazy('clientes')
+
 '''
 # CRUD Funcionario
 class FuncionarioCreateView(CreateView):
@@ -120,9 +139,16 @@ class FuncionarioCreateView(CreateView):
 		return super().form_valid(form)	
     
 class FuncionarioListView(ListView):
-    model = Funcionario
-    template_name = 'funcionarios.html'
-    context_object_name = 'funcionarios'
+	model = Funcionario
+	template_name = 'funcionarios.html'
+	context_object_name = 'funcionarios'
+
+	def get_queryset(self):
+		buscar = self.request.GET.get('buscar')
+		qs = super(FuncionarioListView, self).get_queryset()
+		if buscar:
+			return qs.filter(nome__icontains=buscar)
+		return qs
 
 class FuncionarioUpdateView(UpdateView):
 	model = Funcionario

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Detalhes do Cliente</h2>
+
+  <ul class="list-group">
+    <li class="list-group-item"><strong>Nome:</strong> {{ funcionario.nome }}</li>
+    <li class="list-group-item"><strong>Telefone:</strong> {{ funcionario.telefone }}</li>
+    <li class="list-group-item"><strong>Email:</strong> {{ funcionario.email }}</li>
+  </ul>
+
+  <a href="{% url 'clientes' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

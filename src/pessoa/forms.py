@@ -3,12 +3,12 @@ from django.core.exceptions import ValidationError
 
 from .models import PessoaFisica, PessoaJuridica, PessoaFisica, Funcionario
 
-class PessoaFisicaForm(forms.ModelForm):
+class ClientePfForm(forms.ModelForm):
     class Meta:
         model = PessoaFisica
         fields = ['nome', 'cpf', 'telefone', 'email']
 
-class PessoaJuridicaForm(forms.ModelForm):
+class ClientePjForm(forms.ModelForm):
     class Meta:
         model = PessoaJuridica
         fields = '__all__'

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <h2>Detalhes do Carro</h2>
+
+  <ul class="list-group">
+    <li class="list-group-item"><strong>Placa:</strong> {{ veiculo.placa }}</li>
+    <li class="list-group-item"><strong>Modelo:</strong> {{ veiculo.modelo }}</li>
+    <li class="list-group-item"><strong>Cor:</strong> {{ veiculo.cor }}</li>
+    <li class="list-group-item"><strong>Tipo:</strong> {{ veiculo.tipo }}</li>
+    <li class="list-group-item"><strong>Proprietario:</strong> {{ veiculo.proprietario }}</li>
+  </ul>
+
+  <a href="{% url 'veiculos' %}" class="btn btn-secondary mt-3">Voltar</a>
+</div>
+{% endblock %}

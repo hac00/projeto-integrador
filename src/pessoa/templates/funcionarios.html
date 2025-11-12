@@ -13,12 +13,14 @@
         </a>
     </div>
 
-    <!-- Filtro -->
-    <div class="mb-4">
-        <input type="text" id="filtro" class="form-control" placeholder="Buscar funcionário por nome ou CPF ...">
-    </div>
+    <form method="GET">
+      <div class="d-flex justify-content-between mb-4">
+        <input class="form-control" type="text" name="buscar" value="{{ request.GET.buscar }}" placeholder="Digite o nome do funcionario">
+        <button class="btn btn-dark ms-3">Buscar</button>
+      </div>
+    </form>
 
-    <!-- Card com tabela -->
+    
     <div class="card shadow-lg border-0">
         <div class="card-body p-0">
             <div class="table-responsive">
