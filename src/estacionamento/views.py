@@ -61,6 +61,7 @@ class MovimentacaoSaidaView(UpdateView):
         valor = Valor.objects.first()
         tarifa = valor.valor_hora
         movimentacao.finalizar(tarifa)
+        movimentacao.enviar_email()
         return super().form_valid(form)
 
 class MovimentacaoDeleteView(DeleteView):

@@ -1,0 +1,16 @@
+Olá {{ cliente }}!!
+
+TESTE.
+
+Dados do Serviço
+Cliente: {{ cliente }}
+Placa: {{ horario }}
+Modelo: {{ modelo }}
+Tempo: {{ tempo }}
+
+Funcionário responsável pelo agendamento: {{ funcionario }}
+Valor total: {{ valor }}
+
+Agradecemos pela preferência! Volte sempre!
+
+ESTACIONMENTO

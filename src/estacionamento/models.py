@@ -3,6 +3,9 @@ from django.utils import timezone
 from pessoa.models import Funcionario
 from veiculo.models import Veiculo
 
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
 class Vaga(models.Model):
     numero = models.PositiveIntegerField(unique=True)
     ocupada = models.BooleanField(default=False)
@@ -57,6 +60,34 @@ class Movimentacao(models.Model):
 
     def __str__(self):
         return f"{self.veiculo} - {self.status} ({self.entrada.strftime('%d/%m/%Y %H:%M')})"
+
+    def enviar_email(self):
+        cliente = self.veiculo.proprietario
+        veiculo = self.veiculo
+        funcionario = self.funcionario
+
+        email = [cliente.email]
+
+        dados = {
+            'cliente': cliente.nome,
+            'placa': veiculo.placa,
+            'modelo': veiculo.modelo,
+            'tempo': self.tempo_permanencia(),
+            'funcionario': funcionario.nome,
+            'valor': self.valor
+        }
+
+        texto_email = render_to_string('emails/texto_email.txt', dados)
+        html_email = render_to_string('emails/texto_email.html', dados)
+
+        send_mail(
+            subject='Estacionamento - Concluído',
+            message=texto_email,
+            from_email='henriqueac00@gmail.com',
+            recipient_list=email,
+            html_message=html_email,
+            fail_silently=False,
+        )
 
 class Valor(models.Model):
     valor_hora = models.DecimalField(max_digits=6, decimal_places=2, default=5.00)
