@@ -25,26 +25,31 @@ class Movimentacao(models.Model):
     valor = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='ativa')
 
-    def calcular_valor(self, tarifa_hora=5.0):
+    def calcular_tempo(self):
         if not self.saida:
             return None
         delta = self.saida - self.entrada
-        horas = delta.total_seconds() / 3600
-        horas_arredondadas = int(horas) + (1 if horas % 1 > 0 else 0)
-        return tarifa_hora * horas_arredondadas
+        return int(delta.total_seconds() // 60)
 
     def tempo_permanencia(self):
-        if not self.saida:
+        total_minutos = self.calcular_tempo()
+        if total_minutos is None:
             return "-"
-        delta = self.saida - self.entrada
-        total_minutos = int(delta.total_seconds() // 60)
         horas = total_minutos // 60
         minutos = total_minutos % 60
-        return f"{int(horas)}h {int(minutos)}min"
+        return f"{horas}h {minutos}min"
 
-    def finalizar(self, tarifa_hora=5.0):
+    def calcular_valor(self, tarifa_hora=5.0):
+        total_minutos = self.calcular_tempo()
+        if total_minutos is None:
+            return None
+        horas = total_minutos / 60
+        horas_arredondadas = max(1, int(horas)) + (1 if horas % 1 > 0 else 0)
+        return tarifa_hora * horas_arredondadas
+
+    def finalizar(self, tarifa):
         self.saida = timezone.now()
-        self.valor = self.calcular_valor(tarifa_hora)
+        self.valor = self.calcular_valor(tarifa)
         self.status = 'finalizada'
         self.vaga.ocupada = False
         self.vaga.save()
@@ -52,3 +57,9 @@ class Movimentacao(models.Model):
 
     def __str__(self):
         return f"{self.veiculo} - {self.status} ({self.entrada.strftime('%d/%m/%Y %H:%M')})"
+
+class Valor(models.Model):
+    valor_hora = models.DecimalField(max_digits=6, decimal_places=2, default=5.00)
+
+    def __str__(self):
+        return f"R$ {self.valor_hora:.2f}/hora"

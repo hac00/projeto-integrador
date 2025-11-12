@@ -5,8 +5,8 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import Vaga, Movimentacao
-from .forms import MovimentacaoEntradaForm
+from .models import Vaga, Movimentacao, Valor
+from .forms import MovimentacaoEntradaForm, ValorForm
 
 
 class VagaListView(ListView):
@@ -30,8 +30,6 @@ class VagaDeleteView(DeleteView):
     model = Vaga
     template_name = "vaga_deletar.html"
     success_url = reverse_lazy('vagas')
-
-
 
 class MovimentacaoListView(ListView):
     model = Movimentacao
@@ -60,13 +58,25 @@ class MovimentacaoSaidaView(UpdateView):
 
     def form_valid(self, form):
         movimentacao = form.instance
-        movimentacao.finalizar(tarifa_hora=10)  # tarifa fixa
+        valor = Valor.objects.first()
+        tarifa = valor.valor_hora
+        movimentacao.finalizar(tarifa)
         return super().form_valid(form)
 
 class MovimentacaoDeleteView(DeleteView):
     model = Movimentacao
     template_name = "movimentacao_deletar.html"
     success_url = reverse_lazy('movimentacoes')
+
+class ValorUpdateView(UpdateView):
+    model = Valor
+    form_class = ValorForm
+    template_name = 'valor_form.html'
+    success_url = reverse_lazy('movimentacoes')
+
+    def get_object(self, queryset=None):
+        obj, _ = Valor.objects.get_or_create(id=1) #retorna tupla (obj & boolean)
+        return obj
 
 class RelatorioMovimentacaoView(TemplateView):
     template_name = "relatorio_movimentacoes.html"

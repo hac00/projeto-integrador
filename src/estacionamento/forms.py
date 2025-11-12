@@ -1,5 +1,5 @@
 from django import forms
-from .models import Vaga, Movimentacao
+from .models import Vaga, Movimentacao, Valor
 
 class VagaForm(forms.ModelForm):
     class Meta:
@@ -9,7 +9,6 @@ class VagaForm(forms.ModelForm):
             'numero': forms.NumberInput(attrs={'class': 'form-control'}),
             'ocupada': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
-
 
 class MovimentacaoEntradaForm(forms.ModelForm):
     class Meta:
@@ -27,3 +26,11 @@ class MovimentacaoEntradaForm(forms.ModelForm):
         if vaga and vaga.ocupada:
             raise forms.ValidationError("Essa vaga já está ocupada!")
         return cleaned_data
+
+class ValorForm(forms.ModelForm):
+    class Meta:
+        model = Valor
+        fields = ['valor_hora']
+        widgets = {
+            'valor_hora': forms.NumberInput(attrs={'class':'form-control', 'step': '0.1'}),
+        }
