@@ -36,6 +36,13 @@ class MovimentacaoListView(ListView):
     template_name = "movimentacoes.html"
     context_object_name = "movimentacoes"
 
+    def get_queryset(self):
+        buscar = self.request.GET.get('buscar')
+        qs = super(MovimentacaoListView, self).get_queryset()
+        if buscar:
+            qs = qs.filter(status__icontains=buscar)
+        return qs
+
 class MovimentacaoEntradaView(CreateView):
     model = Movimentacao
     form_class = MovimentacaoEntradaForm
@@ -43,7 +50,6 @@ class MovimentacaoEntradaView(CreateView):
     success_url = reverse_lazy('movimentacoes')
 
     def form_valid(self, form):
-        # Marca a vaga como ocupada
         response = super().form_valid(form)
         vaga = form.instance.vaga
         vaga.ocupada = True
@@ -52,7 +58,7 @@ class MovimentacaoEntradaView(CreateView):
 
 class MovimentacaoSaidaView(UpdateView):
     model = Movimentacao
-    fields = []  # nenhum campo editável
+    fields = []
     template_name = "movimentacao_saida.html"
     success_url = reverse_lazy('movimentacoes')
 
@@ -96,7 +102,7 @@ class RelatorioMovimentacaoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # pegar filtros do GET (opcional)
+
         data_inicio = self.request.GET.get('data_inicio')
         data_fim = self.request.GET.get('data_fim')
         status = self.request.GET.get('status', 'finalizada')

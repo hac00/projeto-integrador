@@ -4,15 +4,7 @@ from django.urls import reverse_lazy
 from .models import Pessoa, PessoaFisica, PessoaJuridica, Funcionario
 from .forms import ClientePfForm, ClientePjForm, FuncionarioForm
 
-'''
-# Template View
-class ClienteView(TemplateView):
-    template_name = 'clientes.html'
 
-class FuncionarioView(TemplateView):
-    template_name = 'funcionarios.html'
-'''
-# CRUD Cliente
 class ClientePfCreateView(CreateView):
 	model = PessoaFisica
 	form_class = ClientePfForm
@@ -69,60 +61,7 @@ class ClienteDeleteView(DeleteView):
     template_name = 'cliente_deletar.html'
     success_url = reverse_lazy('clientes')
 
-'''    
-class ClienteListView(ListView):
-    model = Cliente
-    template_name = 'clientes.html'
-    context_object_name = 'clientes'
 
-class ClienteListView(ListView):
-	model = Cliente
-	template_name = 'clientes.html'
-	context_object_name = 'clientes'
-
-	def get_queryset(self):
-		buscar = self.request.GET.get('buscar')
-		qs = super(ClienteListView, self).get_queryset()
-		# if buscar:
-		# 	return qs.filter(nome__icontains=buscar)
-		return qs
-
-class ClienteUpdateView(UpdateView):
-	model = Cliente
-	form_class = ClienteForm
-	template_name = 'cliente_form.html'
-	success_url = reverse_lazy('clientes')
-
-	def get_initial(self):
-		initial = super().get_initial()
-		cliente = self.get_object()
-		if cliente.tipoCliente == 'PF' and cliente.pessoa_fisica:
-			pf = cliente.pessoa_fisica
-			initial.update({
-				'nome': pf.nome,
-				'telefone': pf.telefone,
-				'email': pf.email,
-				'cpf': pf.cpf,
-				'tipoCliente': 'PF'
-			})
-		elif cliente.tipoCliente == 'PJ' and cliente.pessoa_juridica:
-			pj = cliente.pessoa_juridica
-			initial.update({
-				'nome': pj.nome,
-				'telefone': pj.telefone,
-				'email': pj.email,
-				'cnpj': pj.cnpj,
-				'tipoCliente': 'PJ'
-			})
-		return initial
-
-	def form_valid(self, form):
-		form.save()
-		return super().form_valid(form)		
-        
-
-'''
-# CRUD Funcionario
 class FuncionarioCreateView(CreateView):
 	model = Funcionario
 	form_class = FuncionarioForm
