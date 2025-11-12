@@ -33,6 +33,15 @@ class Movimentacao(models.Model):
         horas_arredondadas = int(horas) + (1 if horas % 1 > 0 else 0)
         return tarifa_hora * horas_arredondadas
 
+    def tempo_permanencia(self):
+        if not self.saida:
+            return "-"
+        delta = self.saida - self.entrada
+        total_minutos = int(delta.total_seconds() // 60)
+        horas = total_minutos // 60
+        minutos = total_minutos % 60
+        return f"{int(horas)}h {int(minutos)}min"
+
     def finalizar(self, tarifa_hora=5.0):
         self.saida = timezone.now()
         self.valor = self.calcular_valor(tarifa_hora)

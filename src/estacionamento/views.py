@@ -2,10 +2,11 @@ import datetime
 
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
+
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import Vaga, Movimentacao
 from .forms import MovimentacaoEntradaForm
-from django.utils import timezone
 
 
 class VagaListView(ListView):
