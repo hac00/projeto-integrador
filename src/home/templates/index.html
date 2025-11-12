@@ -5,19 +5,87 @@
 {% block title %}Início - Estacionamento{% endblock %}
 
 {% block content %}
-<div class="home-content text-center d-flex flex-column justify-content-center align-items-center">
-<h1 class="mb-5">Bem-vindo ao Sistema de Estacionamento</h1>
+<style>
+  body{
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  }
+  .card-hover {
+    transition: all 0.2s ease-in-out;
+  }
+  .card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+  }
+</style>
 
-    <div class="mb-4">
-        <a class="btn btn-primary mx-1" href="{% url 'pessoas' %}">Cliente</a>
-        <a class="btn btn-primary mx-1" href="{% url 'funcionarios' %}">Funcionario</a>
-        <a class="btn btn-secondary mx-1" href="{% url 'veiculos' %}">Veículos</a>
-        <a class="btn btn-success mx-1" href="{% url 'movimentacoes' %}">Estacionamento</a>
+<div class="home-content text-center d-flex flex-column justify-content-center align-items-center mt-5 py-5">
+  <h1 class="mb-5">Bem-vindo ao Sistema de Estacionamento</h1>
+
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+
+      
+      <div class="col">
+        <a href="{% url 'pessoas' %}" class="text-decoration-none text-dark">
+          <div class="card shadow-sm h-100 card-hover">
+            <div class="card-body">
+              <i class="bi bi-people fs-1 text-primary"></i>
+              <h5 class="card-title mt-3">Clientes</h5>
+              <p class="card-text">Gerencie os dados e cadastros dos clientes.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      
+      <div class="col">
+        <a href="{% url 'funcionarios' %}" class="text-decoration-none text-dark">
+          <div class="card shadow-sm h-100 card-hover">
+            <div class="card-body">
+              <i class="bi bi-person-badge fs-1 text-success"></i>
+              <h5 class="card-title mt-3">Funcionários</h5>
+              <p class="card-text">Controle as informações e cargos dos funcionários.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      
+      <div class="col">
+        <a href="{% url 'veiculos' %}" class="text-decoration-none text-dark">
+          <div class="card shadow-sm h-100 card-hover">
+            <div class="card-body">
+              <i class="bi bi-car-front fs-1 text-danger"></i>
+              <h5 class="card-title mt-3">Veículos</h5>
+              <p class="card-text">Cadastre e visualize os veículos registrados.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      
+      <div class="col">
+        <a href="{% url 'movimentacoes' %}" class="text-decoration-none text-dark">
+          <div class="card shadow-sm h-100 card-hover">
+            <div class="card-body">
+              <i class="bi bi-p-square fs-1 text-warning"></i>
+              <h5 class="card-title mt-3">Estacionamento</h5>
+              <p class="card-text">Gerencie as entradas, saídas e pagamentos.</p>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
+  </div>
 
-    <img src="{% static 'estacionamento.png' %}"
-         class="img-fluid rounded-4"
-         style="max-height: 40vh; object-fit: cover;"
-         alt="Imagem de estacionamento">
+<!--   <img src="{% static 'estacionamento.png' %}"
+       class="img-fluid rounded-4 mt-5"
+       style="max-height: 40vh; object-fit: cover;"
+       alt="Imagem de estacionamento"> -->
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+
 {% endblock %}

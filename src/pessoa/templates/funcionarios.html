@@ -66,19 +66,4 @@
 
 </div>
 
-<script>
-  const filtro = document.getElementById('filtro');
-  const tabela = document.getElementById('tabelaFuncionarios');
-
-  filtro.addEventListener('keyup', () => {
-    const termo = filtro.value.toLowerCase();
-    const linhas = tabela.getElementsByTagName('tr');
-
-    for (let i = 0; i < linhas.length; i++) {
-      const texto = linhas[i].innerText.toLowerCase();
-      linhas[i].style.display = texto.includes(termo) ? '' : 'none';
-    }
-  });
-</script>
-
 {% endblock %}
