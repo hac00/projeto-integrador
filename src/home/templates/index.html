@@ -20,11 +20,8 @@
 
 <div class="home-content text-center d-flex flex-column justify-content-center align-items-center mt-5 py-5">
   <h1 class="mb-5">Bem-vindo ao Sistema de Estacionamento</h1>
-
   <div class="container">
     <div class="row row-cols-1 row-cols-md-2 g-4">
-
-      
       <div class="col">
         <a href="{% url 'clientes' %}" class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100 card-hover">
@@ -36,8 +33,6 @@
           </div>
         </a>
       </div>
-
-      
       <div class="col">
         <a href="{% url 'funcionarios' %}" class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100 card-hover">
@@ -49,8 +44,6 @@
           </div>
         </a>
       </div>
-
-      
       <div class="col">
         <a href="{% url 'veiculos' %}" class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100 card-hover">
@@ -62,8 +55,6 @@
           </div>
         </a>
       </div>
-
-      
       <div class="col">
         <a href="{% url 'movimentacoes' %}" class="text-decoration-none text-dark">
           <div class="card shadow-sm h-100 card-hover">
@@ -77,6 +68,30 @@
       </div>
     </div>
   </div>
+    <div class="container mt-5 bg-light rounded shadow">
+        <div class="row flex-nowrap">
+            <div class="col-sm text-center">
+                <p>Clientes</p>
+                <h1 class="display-4 fw-bold">{{ qtd_clientes }}</h1>
+            </div>
+            <div class="col-sm text-center">
+                <p>Funcionarios</p>
+                <h1 class="display-4 fw-bold">{{ qtd_funcionarios }}</h1>
+            </div>
+            <div class="col-sm text-center">
+                <p>Veiculos</p>
+                <h1 class="display-4 fw-bold">{{ qtd_veiculos }}</h1>
+            </div>
+            <div class="col-sm text-center">
+                <p>Vagas</p>
+                <h1 class="display-4 fw-bold">{{ qtd_vagas }}</h1>
+            </div>
+            <div class="col-sm text-center">
+                <p>Valor</p>
+                <h1 class="display-4 fw-bold">{{ valor }}</h1>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
