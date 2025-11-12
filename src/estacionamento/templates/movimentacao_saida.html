@@ -3,11 +3,19 @@
 <div class="container py-4" style="max-width:600px;">
     <h2>Finalizar Estadia</h2>
     <p>Deseja finalizar a estadia do veículo <strong>{{ object.veiculo }}</strong> na vaga <strong>{{ object.vaga.numero }}</strong>?</p>
+    <p>Tempo de permanência: {{ tempo_estimado }}</p>
+    <p>Valor: R$ {{ valor_estimado }}</p>
 
     <form method="post">
         {% csrf_token %}
+        <label for="forma_pagamento">Forma de pagamento:</label>
+        <select name="forma_pagamento" id="forma_pagamento">
+            <option value="PIX">Pix</option>
+            <option value="CARTAO">Cartão</option>
+            <option value="DINHEIRO">Dinheiro</option>
+        </select>
         <button type="submit" class="btn btn-success">Finalizar</button>
-        <a href="{% url 'movimentacoes' %}" class="btn btn-secondary">Cancelar</a>
+        <a href="{% url 'movimentacoes' %}" class="btn btn-danger">Cancelar</a>
     </form>
 </div>
 {% endblock %}

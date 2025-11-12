@@ -1,5 +1,6 @@
 from django import forms
-from .models import Vaga, Movimentacao, Valor
+from .models import Vaga, Movimentacao, Valor, Pagamento
+
 
 class VagaForm(forms.ModelForm):
     class Meta:
@@ -33,4 +34,12 @@ class ValorForm(forms.ModelForm):
         fields = ['valor_hora']
         widgets = {
             'valor_hora': forms.NumberInput(attrs={'class':'form-control', 'step': '0.1'}),
+        }
+
+class PagamentoForm(forms.ModelForm):
+    class Meta:
+        model = Pagamento
+        fields = ['forma']
+        widgets = {
+            'forma': forms.Select(attrs={'class': 'form-select'}),
         }

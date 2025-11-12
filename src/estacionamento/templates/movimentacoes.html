@@ -21,6 +21,7 @@
           <th>Saída</th>
           <th>Tempo</th>
           <th>Valor</th>
+          <th>Pago</th>
           <th>Status</th>
           <th class="text-center">Ações</th>
         </tr>
@@ -35,6 +36,7 @@
           <td>{{ m.saida|default:"-" }}</td>
           <td>{{ m.tempo_permanencia }}</td>
           <td>{{ m.valor|default:"-" }}</td>
+          <td>{{ m.pagamento.valor }}</td>
           <td>{{ m.get_status_display }}</td>
           <td class="text-center">
             {% if m.status == 'ativa' %}

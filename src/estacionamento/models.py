@@ -42,7 +42,7 @@ class Movimentacao(models.Model):
         minutos = total_minutos % 60
         return f"{horas}h {minutos}min"
 
-    def calcular_valor(self, tarifa_hora=5.0):
+    def calcular_valor(self, tarifa_hora=5.0, saida=None):
         total_minutos = self.calcular_tempo()
         if total_minutos is None:
             return None
@@ -94,3 +94,12 @@ class Valor(models.Model):
 
     def __str__(self):
         return f"R$ {self.valor_hora:.2f}/hora"
+
+class Pagamento(models.Model):
+    FORMAS = [('PIX', 'Pix'), ('CARTAO', 'Cartão'), ('DINHEIRO', 'Dinheiro')]
+    movimentacao = models.OneToOneField(Movimentacao, on_delete=models.CASCADE, related_name='pagamento')
+    forma = models.CharField(max_length=10, choices=FORMAS, default='PIX')
+    valor = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return f"{self.movimentacao} - {self.get_forma_display()} - R$ {self.valor:.2f}"

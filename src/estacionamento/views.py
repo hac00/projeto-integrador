@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import Vaga, Movimentacao, Valor
+from .models import Vaga, Movimentacao, Valor, Pagamento
 from .forms import MovimentacaoEntradaForm, ValorForm
 
 
@@ -61,7 +61,19 @@ class MovimentacaoSaidaView(UpdateView):
         valor = Valor.objects.first()
         tarifa = valor.valor_hora
         movimentacao.finalizar(tarifa)
-        movimentacao.enviar_email()
+        forma_pagamento = self.request.POST.get('forma_pagamento')
+        valor_pagamento = movimentacao.valor
+        from decimal import Decimal
+        if forma_pagamento == 'PIX':
+            valor_pagamento *=  Decimal(0.85)
+        if forma_pagamento == 'DINHEIRO':
+            valor_pagamento *= Decimal(0.90)
+        Pagamento.objects.create(
+            movimentacao=movimentacao,
+            forma=forma_pagamento,
+            valor=valor_pagamento
+        )
+        #movimentacao.enviar_email()
         return super().form_valid(form)
 
 class MovimentacaoDeleteView(DeleteView):
