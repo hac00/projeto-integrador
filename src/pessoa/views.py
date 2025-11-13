@@ -1,3 +1,5 @@
+from django.contrib import messages
+from django.core.paginator import Paginator
 from django.views.generic import CreateView, UpdateView, ListView, DeleteView, TemplateView, DetailView
 from django.urls import reverse_lazy
 
@@ -34,6 +36,7 @@ class ClienteListView(ListView):
 	template_name = 'clientes.html'
 	context_object_name = 'clientes'
 
+	# queryset com len()
 	def get_queryset(self):
 		buscar = self.request.GET.get('buscar')
 		#qs = super(ClienteListView, self).get_queryset()
@@ -46,7 +49,38 @@ class ClienteListView(ListView):
 			pj = pj.filter(nome__icontains=buscar)
 		#return qs
 		from itertools import chain #chain une as duas tabelas pf & pj
-		return list(chain(pf, pj))
+		#return list(chain(pf, pj))
+		qs = list(chain(pf, pj))
+		# return lista_clientes
+		if len(qs) > 0:
+			paginator = Paginator(qs, 10)
+			lista = paginator.get_page(self.request.GET.get('page'))
+			return lista
+
+	# queryset com Q()
+	'''
+	def get_queryset(self):
+		buscar = self.request.GET.get('buscar')
+		from django.db.models import Q
+		filtro = Q()
+		if buscar:
+			filtro &= Q(nome__icontains=buscar)
+		p = Pessoa.objects.exclude(id__in=Funcionario.objects.values_list('id', flat=True))
+		pf = p.filter(pessoafisica__isnull=False)
+		pj = p.filter(pessoajuridica__isnull=False)
+		if buscar:
+			pf = pf.filter(filtro)
+			pj = pj.filter(filtro)
+		qs = pf | pj
+		if qs.exists():
+			paginator = Paginator(qs, 10)
+			lista = paginator.get_page(self.request.GET.get('page'))
+			return lista
+		else:
+			messages.info(self.request, "Nenhum cliente encontrado")
+			return qs
+	'''
+
 
 class ClienteDetailView(DetailView):
 	model = Pessoa
@@ -87,7 +121,14 @@ class FuncionarioListView(ListView):
 		qs = super(FuncionarioListView, self).get_queryset()
 		if buscar:
 			return qs.filter(nome__icontains=buscar)
-		return qs
+		#return qs
+
+		if qs.count() > 0:
+			paginator = Paginator(qs, 10)
+			lista = paginator.get_page(self.request.GET.get('page'))
+			return lista
+		else:
+			messages.info(self.request, "Nenhum funcionario encontrado")
 
 class FuncionarioUpdateView(UpdateView):
 	model = Funcionario

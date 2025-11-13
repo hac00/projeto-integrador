@@ -3,6 +3,8 @@ import datetime
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.core.paginator import Paginator
+from django.contrib import messages
 
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import Vaga, Movimentacao, Valor, Pagamento
@@ -41,7 +43,14 @@ class MovimentacaoListView(ListView):
         qs = super(MovimentacaoListView, self).get_queryset()
         if buscar:
             qs = qs.filter(status__icontains=buscar)
-        return qs
+        #return qs
+
+        if qs.count() > 0:
+            paginator = Paginator(qs, 10)
+            lista = paginator.get_page(self.request.GET.get('page'))
+            return lista
+        else:
+            return messages.info(self.request, 'Não existem fornecedores cadastrados')
 
 class MovimentacaoEntradaView(CreateView):
     model = Movimentacao

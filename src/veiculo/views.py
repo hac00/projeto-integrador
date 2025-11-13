@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Veiculo
@@ -13,7 +14,12 @@ class VeiculoListView(ListView):
         qs = super(VeiculoListView, self).get_queryset()
         if buscar:
             return qs.filter(placa__icontains=buscar)
-        return qs
+        #return qs
+
+        if qs.count() > 0:
+            paginator = Paginator(qs, 10)
+            lista = paginator.get_page(self.request.GET.get('page'))
+            return lista
 
 class VeiculoCreateView(CreateView):
     model = Veiculo

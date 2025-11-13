@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block content %}
 <div class="container py-4">
 
@@ -50,7 +51,9 @@
       </tbody>
     </table>
   </div>
-
+  <div class="d-flex justify-content-center">
+    {% bootstrap_pagination object_list url="/veiculos?=page=1" size="sm" %}
+  </div>
 </div>
 {% endif %}
 {% endblock %}
