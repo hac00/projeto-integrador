@@ -4,7 +4,7 @@
     <h2>Finalizar Estadia</h2>
     <p>Deseja finalizar a estadia do veículo <strong>{{ object.veiculo }}</strong> na vaga <strong>{{ object.vaga.numero }}</strong>?</p>
     <p>Tempo de permanência: {{ tempo_estimado }}</p>
-    <p>Valor: R$ {{ valor_estimado }}</p>
+    <p>Valor: R$ {{ pagamento }}</p>
 
     <form method="post">
         {% csrf_token %}
@@ -14,7 +14,7 @@
             <option value="CARTAO">Cartão</option>
             <option value="DINHEIRO">Dinheiro</option>
         </select>
-        <button type="submit" class="btn btn-success">Finalizar</button>
+        <button type="submit" class="btn btn-success"><a href="{% url 'movimentacao_saida' m.pk %}">Finalizar</a></button>
         <a href="{% url 'movimentacoes' %}" class="btn btn-danger">Cancelar</a>
     </form>
 </div>

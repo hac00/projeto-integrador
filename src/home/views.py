@@ -19,7 +19,10 @@ class IndexView(TemplateView):
         context['qtd_funcionarios'] = Funcionario.objects.count()
         context['qtd_veiculos'] = Veiculo.objects.count()
         context['qtd_vagas'] = Vaga.objects.count()
-        context['valor'] = Valor.objects.first().valor_hora
+        if Valor.objects.all().first():
+            context['valor'] = Valor.objects.all().first().valor_hora
+        else:
+            context['valor'] = 0.00
         return context
 
 class LoginView(LoginView):

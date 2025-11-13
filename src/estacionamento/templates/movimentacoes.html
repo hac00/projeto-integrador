@@ -49,7 +49,7 @@
           <td>{{ m.get_status_display }}</td>
           <td class="text-center">
             {% if m.status == 'ativa' %}
-            <a href="{% url 'movimentacao_saida' m.pk %}" class="btn btn-sm btn-outline-success mb-1">Finalizar</a>
+            <a href="{% url 'movimentacao_finalizar' %}" class="btn btn-sm btn-outline-success mb-1">Finalizar</a>
             {% endif %}
             <a href="{% url 'movimentacao_deletar' m.pk %}" class="btn btn-sm btn-outline-danger mb-1">Excluir</a>
           </td>

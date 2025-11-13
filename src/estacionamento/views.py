@@ -91,6 +91,19 @@ class MovimentacaoSaidaView(UpdateView):
         #movimentacao.enviar_email()
         return super().form_valid(form)
 
+class MovimentacaoFinalizarView(TemplateView):
+    template_name = 'movimentacao_saida.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MovimentacaoFinalizarView, self).get_context_data()
+        tarifa = Valor.objects.first().valor_hora
+        # delta = self.saida - self.entrada
+        pagamento = 0
+        context['pagamento'] = pagamento
+
+        return context
+
+
 class MovimentacaoDeleteView(DeleteView):
     model = Movimentacao
     template_name = "movimentacao_deletar.html"
