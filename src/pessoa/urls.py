@@ -6,7 +6,7 @@ from .views import FuncionarioCreateView, FuncionarioUpdateView, FuncionarioList
 urlpatterns = [
     path('clientepf/', ClientePfCreateView.as_view(), name='clientepf'),
     path('clientepj/', ClientePjCreateView.as_view(), name='clientepj'),
-    path('cliente/', ClienteListView.as_view(), name='clientes'),
+    path('clientes/', ClienteListView.as_view(), name='clientes'),
     path('clientepf/<int:pk>/atualizar', ClientePfUpdateView.as_view(), name='clientepf_atualizar'),
     path('clientepj/<int:pk>/atualizar', ClientePjUpdateView.as_view(), name='clientepj_atualizar'),
     path('cliente/<int:pk>/deletar/', ClienteDeleteView.as_view(), name='cliente_deletar'),

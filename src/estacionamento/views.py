@@ -50,7 +50,7 @@ class MovimentacaoListView(ListView):
             lista = paginator.get_page(self.request.GET.get('page'))
             return lista
         else:
-            return messages.info(self.request, 'Não existem fornecedores cadastrados')
+            return messages.info(self.request, 'Não existem movimentacoes cadastradas')
 
 class MovimentacaoEntradaView(CreateView):
     model = Movimentacao

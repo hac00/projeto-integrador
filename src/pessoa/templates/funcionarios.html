@@ -20,7 +20,7 @@
       </div>
     </form>
 
-    
+  {% if funcionarios %}
   <div class="table-responsive shadow-sm">
     <table class="table table-hover table-striped table-bordered align-middle">
       <thead class="table-light">
@@ -65,5 +65,5 @@
     {% bootstrap_pagination object_list url="/funcionarios?page=1" size="sm" %}
   </div>
 </div>
-
+  {% endif %}
 {% endblock %}

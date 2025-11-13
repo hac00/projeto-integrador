@@ -56,6 +56,8 @@ class ClienteListView(ListView):
 			paginator = Paginator(qs, 10)
 			lista = paginator.get_page(self.request.GET.get('page'))
 			return lista
+		else:
+			return messages.info(self.request, 'Não existem clientes cadastrados')
 
 	# queryset com Q()
 	'''
@@ -128,7 +130,7 @@ class FuncionarioListView(ListView):
 			lista = paginator.get_page(self.request.GET.get('page'))
 			return lista
 		else:
-			messages.info(self.request, "Nenhum funcionario encontrado")
+			messages.info(self.request, "Não existem funcionários cadastrados")
 
 class FuncionarioUpdateView(UpdateView):
 	model = Funcionario
