@@ -28,10 +28,20 @@ class Movimentacao(models.Model):
     valor = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='ativa')
 
+    @property
+    def tempo_previsto(self):
+        return self.tempo_permanencia()
+
+    @property
+    def valor_previsto(self):
+        return self.calcular_valor()
+
     def calcular_tempo(self):
-        if not self.saida:
-            return None
-        delta = self.saida - self.entrada
+        if self.saida:
+            saida = self.saida
+        else:
+            saida = timezone.now()
+        delta = saida - self.entrada
         return int(delta.total_seconds() // 60)
 
     def tempo_permanencia(self):
@@ -43,11 +53,15 @@ class Movimentacao(models.Model):
         return f"{horas}h {minutos}min"
 
     def calcular_valor(self, tarifa_hora=5.0, saida=None):
+        if Valor.objects.first():
+            tarifa_hora = Valor.objects.first().valor_hora
+        else:
+            tarifa_hora = 5.00
         total_minutos = self.calcular_tempo()
         if total_minutos is None:
             return None
         horas = total_minutos / 60
-        horas_arredondadas = max(1, int(horas)) + (1 if horas % 1 > 0 else 0)
+        horas_arredondadas = max(1, int(horas) + (1 if horas % 1 else 0))
         return tarifa_hora * horas_arredondadas
 
     def finalizar(self, tarifa):

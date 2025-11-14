@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, DetailView
 from .models import Vaga, Movimentacao, Valor, Pagamento
 from .forms import MovimentacaoEntradaForm, ValorForm
 
@@ -73,8 +73,7 @@ class MovimentacaoSaidaView(UpdateView):
 
     def form_valid(self, form):
         movimentacao = form.instance
-        valor = Valor.objects.first()
-        tarifa = valor.valor_hora
+        tarifa = Valor.objects.first().valor_hora
         movimentacao.finalizar(tarifa)
         forma_pagamento = self.request.POST.get('forma_pagamento')
         valor_pagamento = movimentacao.valor
@@ -91,15 +90,16 @@ class MovimentacaoSaidaView(UpdateView):
         #movimentacao.enviar_email()
         return super().form_valid(form)
 
-class MovimentacaoFinalizarView(TemplateView):
+class MovimentacaoFinalizarView(DetailView):
+    model = Movimentacao
     template_name = 'movimentacao_saida.html'
+    context_object_name = 'movimentacao'
 
     def get_context_data(self, **kwargs):
-        context = super(MovimentacaoFinalizarView, self).get_context_data()
+        context = super().get_context_data(**kwargs)
         tarifa = Valor.objects.first().valor_hora
-        # delta = self.saida - self.entrada
-        pagamento = 0
-        context['pagamento'] = pagamento
+        context['pagamento'] = self.object.calcular_valor(tarifa)
+        context['tempo_estimado'] = self.object.tempo_permanencia()
 
         return context
 
