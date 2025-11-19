@@ -43,24 +43,9 @@ class Funcionario(PessoaFisica):
 		return f'{self.nome} - {cargo}'
 
 	##funcionalidade: define "ativo" com base em data admissao e demissao
-	#opt1
 	def save(self, *args, **kwargs):
 		if self.data_demissao:
 			self.ativo = False
 		else:
 			self.ativo = True
 		super().save(*args, **kwargs)
-
-	#opt2
-	'''
-	def save(self, *args, **kwargs):
-		self.ativo = not bool(self.data_demissao)
-		super().save(*args, **kwargs)
-	'''
-	#opt3
-	'''
-	def save(self, *args, **kwargs):
-		self.ativo = self.demissao is None
-		super().save(*args, **kwargs)
-	'''
-	##
