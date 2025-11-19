@@ -86,7 +86,7 @@ class MovimentacaoSaidaView(UpdateView):
             forma=forma_pagamento,
             valor=valor_pagamento
         )
-        #movimentacao.enviar_email()
+        movimentacao.enviar_email()
         return super().form_valid(form)
 
 class MovimentacaoFinalizarView(DetailView):
@@ -130,19 +130,19 @@ class RelatorioMovimentacaoView(TemplateView):
 
         movimentacoes = Movimentacao.objects.filter(status=status)
 
-        if data_inicio:
-            try:
-                dt_inicio = datetime.strptime(data_inicio, '%Y-%m-%d')
-                movimentacoes = movimentacoes.filter(entrada__date__gte=dt_inicio)
-            except ValueError:
-                pass
+        # if data_inicio:
+        #     try:
+        #         dt_inicio = datetime.strptime(data_inicio, '%Y-%m-%d')
+        #         movimentacoes = movimentacoes.filter(entrada__date__gte=dt_inicio)
+        #     except ValueError:
+        #         pass
 
-        if data_fim:
-            try:
-                dt_fim = datetime.strptime(data_fim, '%Y-%m-%d')
-                movimentacoes = movimentacoes.filter(entrada__date__lte=dt_fim)
-            except ValueError:
-                pass
+        # if data_fim:
+        #     try:
+        #         dt_fim = datetime.strptime(data_fim, '%Y-%m-%d')
+        #         movimentacoes = movimentacoes.filter(entrada__date__lte=dt_fim)
+        #     except ValueError:
+        #         pass
 
         total_valor = sum([m.valor or 0 for m in movimentacoes])
         total_movimentacoes = movimentacoes.count()

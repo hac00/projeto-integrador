@@ -104,14 +104,14 @@ class FuncionarioCreateView(CreateView):
 	template_name = 'funcionario_form.html'
 	success_url = reverse_lazy('funcionarios')
 
-	def form_valid(self, form):
-		funcionario = form.save(commit=False)
-		if not funcionario.data_demissao:
-			funcionario.ativo = True
-		else:
-			funcionario.ativo = False
-		funcionario.save()
-		return super().form_valid(form)	
+	# def form_valid(self, form):
+	# 	funcionario = form.save(commit=False)
+	# 	if not funcionario.data_demissao:
+	# 		funcionario.ativo = True
+	# 	else:
+	# 		funcionario.ativo = False
+	# 	funcionario.save()
+	# 	return super().form_valid(form)	
     
 class FuncionarioListView(ListView):
 	model = Funcionario

@@ -46,9 +46,9 @@ class FuncionarioForm(forms.ModelForm):
 		if admissao and demissao and demissao < admissao:
 			raise ValidationError("A data de demissão não pode ser anterior à data de admissão")
 
-		if demissao is None:
-			cleaned_data['ativo'] = True
-		else:
-			cleaned_data['ativo'] = False
+		# if demissao is None:
+		# 	cleaned_data['ativo'] = True
+		# else:
+		# 	cleaned_data['ativo'] = False
 
-		return cleaned_data
+		# return cleaned_data

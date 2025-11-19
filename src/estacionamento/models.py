@@ -61,7 +61,8 @@ class Movimentacao(models.Model):
         if total_minutos is None:
             return None
         horas = total_minutos / 60
-        horas_arredondadas = max(1, int(horas) + (1 if horas % 1 else 0))
+        # horas_arredondadas = max(1, int(horas) + (1 if horas % 1 else 0))
+        horas_arredondadas = max(1, (total_minutos + 59) // 60)
         return tarifa_hora * horas_arredondadas
 
     def finalizar(self, tarifa):
