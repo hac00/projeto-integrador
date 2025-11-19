@@ -8,7 +8,10 @@
     <li class="list-group-item"><strong>Telefone:</strong> {{ funcionario.telefone }}</li>
     <li class="list-group-item"><strong>Email:</strong> {{ funcionario.email }}</li>
       {% if funcionario.foto %}
-    <li class="list-group-item"><strong>Foto:</strong> {{ funcionario.foto }}</li>
+    <li class="list-group-item">
+      <strong>Foto:</strong><br>
+      <img src="{{ funcionario.foto.url}}" alt="Foto" class="img-fluid mt-2" style="max-width:200px;">
+    </li>
       {% endif %}
     <li class="list-group-item"><strong>Salario:</strong> {{ funcionario.salario }}</li>
     <li class="list-group-item"><strong>Data Admissao:</strong> {{ funcionario.data_admissao }}</li>

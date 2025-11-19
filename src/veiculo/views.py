@@ -14,8 +14,7 @@ class VeiculoListView(ListView):
         buscar = self.request.GET.get('buscar')
         qs = super(VeiculoListView, self).get_queryset()
         if buscar:
-            return qs.filter(placa__icontains=buscar)
-        #return qs
+            qs = qs.filter(placa__icontains=buscar)
 
         if qs.count() > 0:
             paginator = Paginator(qs, 10)

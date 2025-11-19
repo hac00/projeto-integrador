@@ -122,8 +122,7 @@ class FuncionarioListView(ListView):
 		buscar = self.request.GET.get('buscar')
 		qs = super(FuncionarioListView, self).get_queryset()
 		if buscar:
-			return qs.filter(nome__icontains=buscar)
-		#return qs
+			qs = qs.filter(nome__icontains=buscar)
 
 		if qs.count() > 0:
 			paginator = Paginator(qs, 10)

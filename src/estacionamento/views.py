@@ -42,8 +42,7 @@ class MovimentacaoListView(ListView):
         buscar = self.request.GET.get('buscar')
         qs = super(MovimentacaoListView, self).get_queryset()
         if buscar:
-            qs = qs.filter(status__icontains=buscar)
-        #return qs
+            qs = qs.filter(status=buscar)
 
         if qs.count() > 0:
             paginator = Paginator(qs, 10)

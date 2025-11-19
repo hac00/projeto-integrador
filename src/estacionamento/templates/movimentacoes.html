@@ -13,8 +13,12 @@
 
   <form method="GET">
     <div class="d-flex justify-content-between mb-3">
-        <input class="form-control" type="text" name="buscar" value="{{ request.GET.buscar }}" placeholder="Digite o status">
-        <button type="submit" class="btn btn-primary ms-3">Buscar</button>
+        <select class="form-control" name="buscar">
+          <option value="">Selecionar Status</option>
+          <option value="ativa" {% if request.GET.buscar == "ativa" %}selected{% endif %}>Ativa</option>
+          <option value="finalizada" {% if request.GET.buscar == "finalizada" %}selected{% endif %}>Finalizada</option>
+        </select>
+        <button type="submit" class="btn btn-dark ms-3">Buscar</button>
     </div>
   </form>
 
@@ -63,7 +67,7 @@
     </table>
   </div>
   <div class="d-flex justify-content-center">
-    {% bootstrap_pagination object_list url="/movimentacoes?page=1" size="sm" %}
+    {% bootstrap_pagination movimentacoes size="sm" %}
   </div>
 </div>
 {% endif %}

@@ -27,7 +27,7 @@ class PessoaJuridica(Pessoa):
 		return f'{self.nome} - CNPJ: {self.cnpj}'
 
 class Funcionario(PessoaFisica):
-	foto = StdImageField('Foto', upload_to='media/funcionarios', null=True, blank=True)
+	foto = StdImageField('Foto', upload_to='funcionarios', null=True, blank=True)
 	salario = models.DecimalField('Salário', max_digits=10, decimal_places=2)
 	data_admissao = models.DateField('Data de admissão')
 	data_demissao = models.DateField('Data de demissão', null=True, blank=True)
