@@ -29,8 +29,13 @@ class FuncionarioForm(forms.ModelForm):
 			'gerente',
 		]
 		widgets = {
-			'data_admissao': forms.DateInput(attrs={'type':'date'}),
-			'data_demissao': forms.DateInput(attrs={'type':'date'}),
+			'data_admissao': forms.DateInput(format='%Y-%m-%d', attrs={'type':'date'}),
+			'data_demissao': forms.DateInput(format='%Y-%m-%d', attrs={'type':'date'}),
+		}
+
+		input_formats = {
+			'data_admissao': ['%Y-%m-%d'],
+			'data_demissao': ['%Y-%m-%d'],
 		}
 
 	def clean(self):
